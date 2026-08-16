@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SIH PS — Dataset & Limitations Visual Map</title>
+<style>
+:root {
+  --bg:#050505; --panel:#0b0b0b; --panel2:#101010; --line:#8b8b8b;
+  --text:#ededed; --muted:#b9b9b9; --accent:#e7c34b; --border:#3b3b3b;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif}
+body{min-height:100vh}
+.toolbar{
+  position:sticky;top:0;z-index:10;background:rgba(5,5,5,.94);
+  border-bottom:1px solid #252525;padding:12px 18px;display:flex;gap:10px;align-items:center;
+}
+.toolbar h1{font-size:15px;margin:0 16px 0 0;color:var(--accent);font-weight:700}
+button{
+  background:#111;border:1px solid #3b3b3b;color:#ddd;border-radius:7px;padding:7px 10px;
+  cursor:pointer
+}
+button:hover{border-color:#777}
+.search{margin-left:auto;background:#0d0d0d;border:1px solid #333;color:#ddd;border-radius:7px;padding:8px 10px;width:260px}
+#map{padding:22px;max-width:1500px;margin:auto}
+.ps-section{
+  position:relative;display:grid;grid-template-columns:minmax(310px,1fr) minmax(520px,1.65fr);
+  grid-template-rows:auto auto;gap:20px 100px;padding:45px 20px 65px;margin-bottom:25px;
+  min-height:600px;border-bottom:1px solid #222;
+}
+.ps-card,.data-card,.limit-card{
+  background:linear-gradient(145deg,#0d0d0d,#080808);border:1px solid var(--border);
+  border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.35);position:relative
+}
+.ps-card{grid-column:1;grid-row:1 / span 2;align-self:center;padding:20px;max-width:420px}
+.data-card{grid-column:2;grid-row:1;padding:14px;min-width:0}
+.limit-card{grid-column:2;grid-row:2;padding:14px;min-width:0}
+.tag{
+  display:inline-block;border:1px solid #5b4c1a;color:var(--accent);font-size:11px;
+  padding:3px 7px;border-radius:4px;margin-bottom:10px
+}
+h2{font-size:18px;line-height:1.3;margin:0 0 14px;color:#f0f0f0}
+.ps-card p{font-size:13px;line-height:1.65;color:#ccc;margin:0}
+.card-title{
+  display:inline-block;background:var(--accent);color:#111;font-weight:800;
+  padding:4px 8px;border-radius:2px;font-size:12px;margin-bottom:12px
+}
+.table-wrap{overflow:auto;max-height:510px}
+table{border-collapse:collapse;width:100%;font-size:11px}
+th,td{border:1px solid #2f2f2f;padding:7px;vertical-align:top;text-align:left}
+th{background:#161616;color:var(--accent);position:sticky;top:0}
+td{color:#c9c9c9;line-height:1.4}
+tr:nth-child(even) td{background:#0b0b0b}
+.limit-card ol{margin:0;padding-left:22px;color:#c9c9c9;font-size:12px;line-height:1.55}
+.limit-card li{margin:0 0 9px}
+.connector{
+  position:absolute;width:80px;height:80px;pointer-events:none;border-top:2px solid #8d8d8d;
+  opacity:.8
+}
+.c1{left:39%;top:50%;transform:rotate(25deg);border-radius:50% 0 0 0}
+.c2{left:39%;bottom:30%;transform:rotate(-25deg);border-radius:0 0 0 50%}
+@media(max-width:1000px){
+  .ps-section{grid-template-columns:1fr;gap:16px}
+  .ps-card,.data-card,.limit-card{grid-column:1;grid-row:auto;max-width:none}
+  .connector{display:none}
+  .search{width:180px}
+}
+@media print{
+  .toolbar{display:none} body{background:white;color:black}
+  .ps-section{break-inside:avoid;border-bottom:1px solid #ccc}
+  .ps-card,.data-card,.limit-card{box-shadow:none;border-color:#aaa}
+}
+</style>
+</head>
+<body>
+<div class="toolbar">
+  <h1>SIH PS — Dataset + Limitations Map</h1>
+  <button onclick="expandAll()">Expand all</button>
+  <button onclick="window.print()">Print / Save PDF</button>
+  <input class="search" id="search" placeholder="Filter problem statements..." oninput="filterPS(this.value)">
+</div>
+<div id="map">
+
+    <section class="ps-section" id="N1">
+      <div class="connector c1"></div><div class="connector c2"></div>
+      <div class="ps-card">
+        <div class="tag">N1</div>
+        <h2>Road Accident Black-Spot &amp; Severity Prediction Using Multi-Source Crash + Infrastructure + Weather Data</h2>
+        <p><b>Problem:</b> India has ~1% of the world&#x27;s vehicles but ~11% of global road accident deaths (~1.7 lakh fatalities/year). Black-spot identification is largely manual and reactive, often happening after clusters of deaths are reported.</p>
+      </div>
+
+      <div class="data-card">
+        <div class="card-title">Data Sources</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data Type</th><th>Source</th><th>Access Method</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Road Accidents in India (annual report)</td><td>MoRTH</td><td>Free download (PDF/data.gov.in)</td><td>State/district-wise cause, severity, vehicle type, time of day.</td></tr><tr><td>Accidental Deaths &amp; Suicides in India (ADSI)</td><td>NCRB</td><td>Free download</td><td>Complements MoRTH with cause-coded fatality data.</td></tr><tr><td>State/year-wise cases, injured, deaths</td><td>Dataful / data.gov.in (sourced from NCRB)</td><td>Free download</td><td>Cleaned tabular version of NCRB data.</td></tr><tr><td>Kaggle India Road Accident Dataset</td><td>Kaggle</td><td>Free download</td><td>State, year, severity, vehicle type — useful for prototyping before raw government data.</td></tr><tr><td>Road network &amp; geometry</td><td>OpenStreetMap</td><td>Free via Overpass API</td><td>Curvature, lane count, junction density, road class.</td></tr><tr><td>Weather at time of accident</td><td>IMD</td><td>Free download</td><td>Rainfall, visibility, fog — correlates strongly with severity.</td></tr><tr><td>Traffic volume</td><td>Google/HERE traffic APIs; city traffic police open data</td><td>Free tier / partial</td><td>Sparse outside major metros.</td></tr><tr><td>Vehicle registration density</td><td>Vahan Dashboard (MoRTH)</td><td>Free download</td><td>District-wise vehicle population; rough exposure denominator.</td></tr><tr><td>Speed limit / signage inventory</td><td>State PWD / Highway Authority GIS portals</td><td>Varies by state</td><td>Useful but inconsistent coverage.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="limit-card">
+        <div class="card-title">Limitations</div>
+        <ol><li>Location Imprecision — Older MoRTH/NCRB records often use landmark-based location, not GPS; historical black-spot geocoding is noisy.</li><li>No Exposure Denominator — Raw accident counts do not account for traffic volume per segment; severity-per-vehicle cannot be computed reliably without volume data.</li><li>Underreporting — Minor injury accidents are believed to be significantly underreported relative to fatal ones, biasing models toward severe-only patterns.</li><li>State-Level Data Fragmentation — Reporting formats and quality vary by state and police station, complicating a pan-India model.</li><li>Causal Confounds — Enforcement intensity, ambulance response time, and hospital proximity affect fatality outcomes independently of crash mechanics and are rarely available jointly.</li></ol>
+      </div>
+    </section>
+    
+    <section class="ps-section" id="N2">
+      <div class="connector c1"></div><div class="connector c2"></div>
+      <div class="ps-card">
+        <div class="tag">N2</div>
+        <h2>Hyperlocal Air Quality Nowcasting for Underserved Wards Using CAAQMS + Satellite + Low-Cost Sensor Fusion</h2>
+        <p><b>Problem:</b> India&#x27;s official CAAQMS network has only ~500 continuous stations for 4,000+ towns/cities, leaving many wards—especially poorer, denser ones—without ground-truth AQI and dependent on city-average values.</p>
+      </div>
+
+      <div class="data-card">
+        <div class="card-title">Data Sources</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data Type</th><th>Source</th><th>Access Method</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Real-time station AQI (all pollutants)</td><td>CPCB CAAQMS</td><td>Free, advance-search download per station</td><td>15-min to daily granularity; ~500+ stations nationally.</td></tr><tr><td>AQI API</td><td>data.gov.in (CPCB resource)</td><td>Free API key</td><td>Good for building a live pipeline.</td></tr><tr><td>Historical/manual monitoring (NAMP)</td><td>CPCB via data.gov.in</td><td>Free download</td><td>Older, sparser, pre-2015-heavy.</td></tr><tr><td>Aggregated multi-source AQI</td><td>OpenAQ</td><td>Free API, S3 bulk archive</td><td>Harmonized CPCB + global data; easy single entry point.</td></tr><tr><td>Aerosol Optical Depth / PM proxy</td><td>NASA MODIS, Sentinel-5P via Google Earth Engine</td><td>Free</td><td>Satellite-derived pollution proxy for ungauged wards.</td></tr><tr><td>Land use / built-up density</td><td>ISRO Bhuvan LULC</td><td>Free download</td><td>Roads, industrial zones, green cover per ward.</td></tr><tr><td>Traffic congestion</td><td>City traffic police portals / crowdsourced apps</td><td>Varies</td><td>Patchy outside metros; optional feature.</td></tr><tr><td>Meteorology (wind, inversion, humidity)</td><td>IMD</td><td>Free download</td><td>Dispersion strongly modulates local PM levels.</td></tr><tr><td>Ward boundaries</td><td>Survey of India / municipal GIS portals</td><td>Varies by city</td><td>Needed to aggregate predictions to an actionable unit.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="limit-card">
+        <div class="card-title">Limitations</div>
+        <ol><li>Sparse Ground Truth Outside Metros — Tier-2/3 cities and many wards within large cities have zero calibration points, so the model is extrapolated where it is most needed.</li><li>Satellite–Surface Mismatch — AOD measures the whole atmospheric column, not ground-level concentration; converting it to surface PM2.5 needs uncertain boundary-layer-height correction.</li><li>Low-Cost Sensor Drift — Crowdsourced/DIY sensors drift and need frequent co-location calibration against CPCB reference stations.</li><li>Download Throttling — CPCB&#x27;s portal limits historical bulk downloads to short windows per request, making multi-year collection an engineering bottleneck.</li><li>Seasonal Confounding — Stubble-burning, Diwali, and monsoon washout create large non-stationary swings that may hurt cross-season generalization.</li></ol>
+      </div>
+    </section>
+    
+    <section class="ps-section" id="N3">
+      <div class="connector c1"></div><div class="connector c2"></div>
+      <div class="ps-card">
+        <div class="tag">N3</div>
+        <h2>Cash-Flow-Based MSME Credit Risk Scoring Using GST Filing Patterns + Alternative Data</h2>
+        <p><b>Problem:</b> India has ~6.3 crore MSMEs contributing ~30% of GDP, but only 10–15% have access to formal credit. Many are thin-file businesses without audited financials and are rejected by collateral-based underwriting.</p>
+      </div>
+
+      <div class="data-card">
+        <div class="card-title">Data Sources</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data Type</th><th>Source</th><th>Access Method</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>MSME registration &amp; classification</td><td>Udyam Registration Portal</td><td>Aggregated stats free; record-level not public</td><td>~3.2 crore registered MSMEs, ~95% micro.</td></tr><tr><td>GST return structure &amp; schema</td><td>GSTN developer/API documentation</td><td>Public documentation</td><td>Real filer-level data is private; use schema to generate realistic synthetic returns.</td></tr><tr><td>Synthetic/sample credit scoring datasets</td><td>Kaggle (SME/loan default datasets), UCI</td><td>Free download</td><td>Proxy for feature engineering and model-validation logic.</td></tr><tr><td>TReDS invoice financing volumes</td><td>RXIL / M1xchange / Invoicemart public disclosures</td><td>Free (aggregate reports)</td><td>Sector/scale context, not record-level.</td></tr><tr><td>MSME sector employment &amp; output</td><td>Ministry of MSME Annual Report</td><td>Free download</td><td>Sector-wise benchmarks to sanity-check model outputs.</td></tr><tr><td>Formal credit gap &amp; NPA benchmarks</td><td>RBI / SIDBI reports</td><td>Free download</td><td>Useful for setting risk thresholds and validating against known default rates.</td></tr><tr><td>Business compliance signals</td><td>GST portal public search (GSTIN status)</td><td>Free, per-GSTIN lookup</td><td>Binary compliance-health feature; not bulk-downloadable.</td></tr><tr><td>Digital payment activity (proxy)</td><td>RBI Digital Payments Index, NPCI UPI statistics</td><td>Free download (aggregated)</td><td>City/sector level only; macro control variable, not firm-level.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="limit-card">
+        <div class="card-title">Limitations</div>
+        <ol><li>No Public Firm-Level Ground Truth — Actual GST filings and default outcomes are private/regulated; a hackathon build must use synthetic data, limiting confidence in real-world accuracy claims.</li><li>Survivorship Bias — Obtainable MSME success datasets skew toward formal, Udyam-registered businesses; informal micro-enterprises are least represented.</li><li>Label Definition Ambiguity — &#x27;Default&#x27; and &#x27;creditworthy&#x27; differ across NBFCs, banks, and TReDS financiers; without a standard label, models may optimize an arbitrary proxy.</li><li>Regulatory Sensitivity — Real deployment would require Account Aggregator / RBI data-sharing consent frameworks; a hackathon prototype can only demonstrate the pipeline.</li><li>Seasonal &amp; Sector Cash-Flow Variance — Festive retail and monsoon-dependent businesses can be misclassified when short GST histories miss normal seasonality.</li></ol>
+      </div>
+    </section>
+    
+    <section class="ps-section" id="N4">
+      <div class="connector c1"></div><div class="connector c2"></div>
+      <div class="ps-card">
+        <div class="tag">N4</div>
+        <h2>Public Bus Bunching &amp; ETA Reliability Prediction Using GTFS + Real-Time Feeds</h2>
+        <p><b>Problem:</b> Bus commuters in many Indian cities face unpredictable wait times because buses bunch into clusters with long gaps, while app-shown ETAs can be frequently wrong.</p>
+      </div>
+
+      <div class="data-card">
+        <div class="card-title">Data Sources</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data Type</th><th>Source</th><th>Access Method</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Static GTFS (routes, stops, schedule)</td><td>Delhi Open Transit Data (otd.delhi.gov.in)</td><td>Free download</td><td>India&#x27;s most mature open bus GTFS + real-time feed.</td></tr><tr><td>Static GTFS, other cities</td><td>Chartr / busmaps.com aggregator</td><td>Free download</td><td>Growing but uneven city coverage; freshness must be checked.</td></tr><tr><td>Real-time vehicle positions (GTFS-RT)</td><td>Delhi OTD real-time API</td><td>Free API</td><td>Needed to compute actual vs scheduled headways—the bunching signal.</td></tr><tr><td>Global GTFS/GTFS-RT catalog</td><td>Mobility Database</td><td>Free, searchable</td><td>Cross-check which Indian cities have a live feed.</td></tr><tr><td>Road traffic conditions</td><td>OpenStreetMap + city traffic data where available</td><td>Free / partial</td><td>Explains why a route is bunching (congestion segment).</td></tr><tr><td>Weather</td><td>IMD</td><td>Free download</td><td>Rain correlates with bunching through slower boarding/traffic.</td></tr><tr><td>Ridership / stop-level demand (proxy)</td><td>Smart card / ticketing open dashboards where published</td><td>Varies</td><td>Rarely public at stop level; often a binding constraint.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="limit-card">
+        <div class="card-title">Limitations</div>
+        <ol><li>Live Feed Coverage Is Thin — Only a handful of Indian cities currently publish genuinely live, well-maintained GTFS-RT feeds.</li><li>Static Schedule ≠ Operational Reality — Published GTFS timetables may not match actual operations, so schedule-vs-actual gaps can reflect stale GTFS.</li><li>No Stop-Level Demand Data — Without boarding/alighting counts, the model can predict irregularity but not rider impact.</li><li>GPS Noise in Dense Traffic — Urban-canyon effects and traffic-jam idling create noisy traces requiring substantial cleaning.</li><li>Single-City External Validity — A model tuned to Delhi may not transfer to a smaller city without local retraining.</li></ol>
+      </div>
+    </section>
+    
+    <section class="ps-section" id="S1">
+      <div class="connector c1"></div><div class="connector c2"></div>
+      <div class="ps-card">
+        <div class="tag">S1</div>
+        <h2>On-Spot RTRWH &amp; Artificial Recharge Assessment App</h2>
+        <p><b>Problem:</b> There is no easy way for a citizen or engineer to estimate rooftop rainwater-harvesting potential on the spot and size the appropriate artificial-recharge structure for a plot.</p>
+      </div>
+
+      <div class="data-card">
+        <div class="card-title">Data Sources</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data Type</th><th>Source</th><th>Access Method</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Rainfall Data</td><td>IMD Gridded Rainfall</td><td>Free download</td><td>0.25° resolution, daily.</td></tr><tr><td>Groundwater Levels</td><td>CGWB / India-WRIS</td><td>Free download</td><td>Well-level, pre/post-monsoon.</td></tr><tr><td>Aquifer Maps</td><td>CGWB NAQUIM</td><td>Free download</td><td>3D aquifer geometry, 500+ districts.</td></tr><tr><td>Soil Data</td><td>NBSS&amp;LUP Soil Maps</td><td>Research collaboration</td><td>1:250,000 scale; coarse for plot-level use.</td></tr><tr><td>Building Footprints</td><td>Microsoft Building Footprints (India) / satellite imagery</td><td>Free download</td><td>Vector data for rooftop area estimation.</td></tr><tr><td>Land Use/Cover</td><td>ISRO Bhuvan LULC</td><td>Free download</td><td>Updated every 5 years.</td></tr><tr><td>Design Standards</td><td>CGWB Master Plan for Artificial Recharge; CPHEEO manual</td><td>Free download</td><td>Runoff coefficients and structure-sizing norms.</td></tr><tr><td>Real-time Recharge Data</td><td>INGRES</td><td>Free via portal</td><td>System this PS is meant to feed.</td></tr><tr><td>Existing RTRWH Inventory</td><td>State Groundwater Boards / ULBs</td><td>Varies, often proprietary</td><td>Rarely digitized.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="limit-card">
+        <div class="card-title">Limitations</div>
+        <ol><li>Rooftop Estimation Accuracy — Building-footprint data is coarse in dense old-city fabric; no verified national plot-level rooftop-area dataset.</li><li>Aquifer Heterogeneity — Alluvial vs hard-rock response varies street to street; regional parameters do not generalize to one plot.</li><li>Soil/Geology Granularity — NBSS&amp;LUP maps are too coarse for building-scale infiltration-rate estimates.</li><li>No RTRWH Ground Truth — Most existing structures are undocumented, leaving little ground truth for recharge validation.</li><li>Fragmented Ownership — CGWB, State Groundwater Boards, and ULBs hold pieces of the data in incompatible formats.</li><li>Sparse DWLR Network — Real-time recharge validation needs a denser digital water-level-recorder network.</li></ol>
+      </div>
+    </section>
+    
+    <section class="ps-section" id="S2">
+      <div class="connector c1"></div><div class="connector c2"></div>
+      <div class="ps-card">
+        <div class="tag">S2</div>
+        <h2>AI-Based Rockfall Prediction &amp; Alert System for Open-Pit Mines</h2>
+        <p><b>Problem:</b> Rockfalls in open-pit mines are a major cause of miner injury/death, but there is no scalable early-warning system that ties slope, weather, and blast data together.</p>
+      </div>
+
+      <div class="data-card">
+        <div class="card-title">Data Sources</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data Type</th><th>Source</th><th>Access Method</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Accident/Incident Data</td><td>DGMS Annual Reports</td><td>Free download (aggregated)</td><td>National-level, not per-mine or per-bench.</td></tr><tr><td>Lithology/Geology Maps</td><td>Geological Survey of India — Bhukosh Portal</td><td>Free download</td><td>Regional scale.</td></tr><tr><td>Ground Deformation</td><td>Sentinel-1 InSAR (ESA Copernicus)</td><td>Free download</td><td>Useful for slow slope movement, not sudden rockfall.</td></tr><tr><td>Terrain/DEM</td><td>Cartosat / SRTM DEM via Bhuvan, USGS</td><td>Free download</td><td>For slope angle/bench geometry.</td></tr><tr><td>Rainfall Data</td><td>IMD Gridded + station data</td><td>Free download</td><td>Rain is a major rockfall trigger.</td></tr><tr><td>Seismic Data</td><td>National Center for Seismology</td><td>Free download</td><td>Blast-induced and tectonic triggers.</td></tr><tr><td>Mine-specific Slope Data</td><td>Individual mine survey/monitoring systems (e.g. Coal India)</td><td>Direct partnership, proprietary</td><td>Rarely shared externally.</td></tr><tr><td>Published Slope-Stability Datasets</td><td>Academic papers (mostly non-Indian mines)</td><td>Varies</td><td>Small samples, different rock types.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="limit-card">
+        <div class="card-title">Limitations</div>
+        <ol><li>No Public India-Specific Rockfall Database — Most usable datasets are proprietary or from non-Indian mines with different geology.</li><li>Sparse Instrumentation — Real-time slope radar/extensometers exist at only a handful of large mines; no standardized deployment.</li><li>Coarse Geology Maps — Regional GSI maps miss bench-level joint/fracture patterns that drive rockfall triggers.</li><li>Missing Operational Data — Blasting logs and vibration records are rarely digitized or shared.</li><li>Temporal Mismatch — Rainfall-triggered failures need sub-daily localized rainfall; IMD gridded data is coarser.</li><li>Liability Reluctance — Mines may be cautious about sharing near-miss/failure data due to scrutiny and safety liability.</li></ol>
+      </div>
+    </section>
+    
+    <section class="ps-section" id="S3">
+      <div class="connector c1"></div><div class="connector c2"></div>
+      <div class="ps-card">
+        <div class="tag">S3</div>
+        <h2>AI-Powered Crop Yield Prediction &amp; Optimization</h2>
+        <p><b>Problem:</b> Odisha&#x27;s farmers and agriculture department lack reliable, timely yield forecasts for procurement, price support, and input-distribution planning.</p>
+      </div>
+
+      <div class="data-card">
+        <div class="card-title">Data Sources</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data Type</th><th>Source</th><th>Access Method</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Crop Production Data</td><td>UPAg Portal (Ministry of Agriculture)</td><td>Free download</td><td>District-wise, crop-wise.</td></tr><tr><td>State Agri Statistics</td><td>Directorate of Agriculture &amp; Food Production, Odisha</td><td>Free/partial download</td><td>State-specific.</td></tr><tr><td>Weather Data</td><td>IMD Gridded Rainfall + Odisha AWS network</td><td>Free download</td><td>Daily, station + gridded.</td></tr><tr><td>Soil Health</td><td>Soil Health Card Portal</td><td>Free download (aggregated)</td><td>Nutrient status by block.</td></tr><tr><td>Satellite Crop Monitoring</td><td>ISRO NRSC FASAL Project</td><td>Free/research access</td><td>Purpose-built for India crop forecasting.</td></tr><tr><td>Vegetation Indices</td><td>MODIS/Sentinel-2 via Google Earth Engine</td><td>Free</td><td>NDVI time series.</td></tr><tr><td>Irrigation Source Data</td><td>UPAg / Minor Irrigation Census</td><td>Free download</td><td>Canal/well/tank-wise.</td></tr><tr><td>Market Prices</td><td>Agmarknet</td><td>Free API</td><td>Daily wholesale prices.</td></tr><tr><td>Yield-Loss/Insurance Data</td><td>PMFBY Portal</td><td>Partial/aggregated</td><td>Crop insurance claims as a proxy for loss.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="limit-card">
+        <div class="card-title">Limitations</div>
+        <ol><li>Sparse Ground Truth — Actual yield data from crop-cutting experiments is delayed by months and low-sample per district.</li><li>Intra-State Variability — Odisha spans coastal, plateau, and hill agro-climatic zones; district aggregation hides this.</li><li>Fragmented Landholdings — Many farms are under 1 hectare, so one satellite pixel can mix several farmers&#x27; plots.</li><li>Monsoon Cloud Cover — Kharif overlaps with heavy cloud cover, degrading optical satellite availability when needed most.</li><li>No Plot-Level History — Yield records are not tied to farmer identity over time, limiting farmer-specific supervised learning.</li><li>Reporting Lag — Price and official yield data can lag real conditions by weeks to months.</li></ol>
+      </div>
+    </section>
+    
+    <section class="ps-section" id="S4">
+      <div class="connector c1"></div><div class="connector c2"></div>
+      <div class="ps-card">
+        <div class="tag">S4</div>
+        <h2>FloatChat — AI Conversational Interface for ARGO Ocean Data</h2>
+        <p><b>Problem:</b> ARGO ocean-float data on temperature, salinity, and depth is rich but locked behind technical formats, making it difficult for non-specialists such as fisherfolk, students, and policymakers to use.</p>
+      </div>
+
+      <div class="data-card">
+        <div class="card-title">Data Sources</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data Type</th><th>Source</th><th>Access Method</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>ARGO Float Profiles</td><td>Indian Argo Project / INCOIS, international Argo GDAC</td><td>Free download</td><td>Temperature/salinity vs depth; global network.</td></tr><tr><td>Ocean State Forecasts</td><td>INCOIS</td><td>Free access</td><td>Indian Ocean-specific.</td></tr><tr><td>Satellite SST / Ocean Color</td><td>NASA MODIS / Oceansat via Bhuvan, ISRO</td><td>Free download</td><td>Surface-level complement to ARGO depth profiles.</td></tr><tr><td>Bathymetry</td><td>GEBCO Global Bathymetry</td><td>Free download</td><td>Ocean-floor depth.</td></tr><tr><td>Cyclone/Storm Tracks</td><td>IMD RSMC New Delhi</td><td>Free download</td><td>For event-linked queries.</td></tr><tr><td>Fisheries Advisories</td><td>INCOIS Potential Fishing Zone (PFZ) advisories</td><td>Free access</td><td>Direct relevance to fisherfolk use case.</td></tr><tr><td>Marine Biodiversity</td><td>OBIS</td><td>Free download</td><td>For biodiversity-related queries.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="limit-card">
+        <div class="card-title">Limitations</div>
+        <ol><li>Sparse Coastal Coverage — ARGO floats operate mainly in open ocean deeper than ~1000m; shallow Indian coastal waters are under-sampled.</li><li>No India-Specific Ocean NLP Corpus — There is no established domain training corpus mapping natural-language questions to oceanographic parameters.</li><li>Data Latency &amp; QC Variability — Real-time float data can carry provisional quality flags; fully quality-controlled delayed-mode data lags by months.</li><li>Multilingual Gap — Regional-language support is needed, but oceanographic terminology is not well covered in Indian-language NLP resources.</li><li>Cross-Dataset Alignment — Combining ARGO with satellite and fisheries data requires spatial-temporal interpolation, adding uncertainty.</li></ol>
+      </div>
+    </section>
+    
+    <section class="ps-section" id="S5">
+      <div class="connector c1"></div><div class="connector c2"></div>
+      <div class="ps-card">
+        <div class="tag">S5</div>
+        <h2>Indigenous Contactless Integrated Track Monitoring System (ITMS)</h2>
+        <p><b>Problem:</b> Indian railway-track condition recording still relies heavily on periodic Track Recording Car (TRC) runs, leaving no continuous contactless system for early defect detection between runs.</p>
+      </div>
+
+      <div class="data-card">
+        <div class="card-title">Data Sources</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Data Type</th><th>Source</th><th>Access Method</th><th>Notes</th></tr></thead>
+            <tbody><tr><td>Track Maintenance Standards</td><td>RDSO manuals</td><td>Free download</td><td>Defines defect thresholds.</td></tr><tr><td>Historical TRC Data</td><td>Indian Railways zonal records</td><td>Internal/restricted</td><td>Not publicly released.</td></tr><tr><td>Track Defect History</td><td>Indian Railways Track Management System (TMS)</td><td>Internal</td><td>Would need direct partnership.</td></tr><tr><td>Rail Asset Inventory</td><td>Indian Railways GIS asset management</td><td>Internal</td><td>Track/asset geolocation.</td></tr><tr><td>Comparable Open Datasets</td><td>Kaggle rail-fault / vibration datasets</td><td>Free download</td><td>Non-Indian gauge/rolling stock; limited transfer.</td></tr><tr><td>Weather Data</td><td>IMD</td><td>Free download</td><td>Temperature swings drive rail-buckling risk.</td></tr><tr><td>Sensor Benchmark Data</td><td>Published accelerometer/vibration research datasets</td><td>Free (academic)</td><td>Useful for sensor-fusion validation only.</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="limit-card">
+        <div class="card-title">Limitations</div>
+        <ol><li>No Public Indian Track-Defect Dataset — TMS and TRC data are internal; real labels would require direct partnership.</li><li>Gauge/Loading Mismatch — Open rail-fault datasets use different gauges and axle loads, limiting transfer.</li><li>Operating Envelope — Contactless sensing must work across India&#x27;s speed range and monsoon conditions; no public dataset spans that combination.</li><li>Expensive Ground Truth — Defect classification still needs expert Permanent-Way inspection, which is slow and costly to scale.</li><li>Retrofitting Constraint — Combining &#x27;contactless&#x27; and &#x27;indigenous&#x27; rules out many off-the-shelf laser/optical systems.</li></ol>
+      </div>
+    </section>
+    
+</div>
+<script>
+function filterPS(q){
+  q=q.toLowerCase().trim();
+  document.querySelectorAll('.ps-section').forEach(s=>{
+    s.style.display = !q || s.innerText.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
+function expandAll(){
+  document.querySelectorAll('.table-wrap').forEach(x=>x.style.maxHeight='none');
+  document.querySelectorAll('.limit-card ol').forEach(x=>x.style.maxHeight='none');
+}
+</script>
+</body>
+</html>
